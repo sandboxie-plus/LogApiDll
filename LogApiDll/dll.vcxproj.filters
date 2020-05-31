@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{468905b2-3162-4536-ae45-1150b9c299c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="logger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="subroutines.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hidedll.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\advapi32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\gdi32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\kernel32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\mpr_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\netapi32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\ntdll_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\psapi_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\rasapi32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\sfc_os_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\srclient_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\shell32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\urlmon_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\user32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\wininet_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\winscard_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\ws2_32_hook.c">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="protect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\hooks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\ole32_hook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hidedll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subroutines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\sfc_os_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\shell32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\srclient_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\gdi32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\rasapi32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\mpr_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\ntdll_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\psapi_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\kernel32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\ws2_32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\urlmon_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\advapi32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\wininet_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\netapi32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\user32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\winscard_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\ole32_hook.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="protect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\hooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
