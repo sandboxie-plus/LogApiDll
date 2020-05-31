@@ -10,4 +10,4 @@ InjectDll64=...\logapi64.dll
 OpenPipePath=\Device\NamedPipe\LogAPI
 ```
 
-Once this is set up you must open a pipe server at \\.\pipe\LogAPI and you will get the log messages  as a '\0' separated stream of data.
+Once this is set up you must open a pipe server at \\\\.\\pipe\\LogAPI and you will get the log messages  as a '\0' separated stream of data.
