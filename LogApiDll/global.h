@@ -166,7 +166,7 @@ typedef struct _SYSTEM_PROCESSES_INFORMATION {
 #include "logger.h"
 #include "protect.h"
 #ifdef USE_MINI_HOOK
-#include "..\MinHook\include\MinHook.h"
+#include "..\libMinHook\include\MinHook.h"
 #endif
 #include "hooks\hooks.h"
 
