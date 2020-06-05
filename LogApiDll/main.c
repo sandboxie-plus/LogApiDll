@@ -186,7 +186,12 @@ Return Value:
 	shctx.SboxDllCallback(DllCallback);
 	_WARNING_ON(4152);
 	InstallHooks();
-	
+
+//#ifdef USE_MINI_HOOK
+//	MH_EnableHook(MH_ALL_HOOKS);
+//	shctx.initDone = TRUE;
+//#endif
+
 #ifndef _DEBUG
 	HideDllFromPEB(shctx.SbieDll.BaseAddress, DLL_RENAME_MEMORYORDERENTRY);
 	HideDllFromPEB(shctx.ThisDll.BaseAddress, DLL_UNLINK_NORMAL);

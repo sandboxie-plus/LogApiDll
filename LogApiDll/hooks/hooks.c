@@ -55,8 +55,9 @@ PVOID HookCode(
 		PVOID pOriginal = NULL;
 		if (MH_CreateHook(pfn, DetourHandler, &pOriginal) != MH_OK)
 			return pfn;
-		if (MH_EnableHook(pfn) == MH_OK)
-			return pOriginal;
+		//if (shctx.initDone)
+		//	MH_EnableHook(pfn);
+		return pOriginal;
 #else
 		return shctx.SboxHook(RoutineName, pfn, DetourHandler);
 #endif
@@ -89,6 +90,9 @@ VOID InstallHooks(
 	HookSfc_os();   /*+*/
 	HookOle32();    /*R*/
 	HookWinscard(); /*+*/
+#ifdef USE_MINI_HOOK
+	MH_EnableHook(MH_ALL_HOOKS);
+#endif
 
 	AlreadyInstalledHooks = TRUE;
 }
@@ -163,6 +167,9 @@ VOID InstallHooksCallback(
 	}
 
 fn_end:
+#ifdef USE_MINI_HOOK
+	MH_EnableHook(MH_ALL_HOOKS);
+#endif
 	return;
 }
 

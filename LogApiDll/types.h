@@ -153,6 +153,10 @@ typedef struct _SPYHOOKCONTEXT {
 
 	CHAR szDLLVersion[MAXDLLVER]; //field used to store BSA related version string
 
+//#ifdef USE_MINI_HOOK
+//	BOOL initDone;
+//#endif
+
 } SHCONTEXT, *PSHCONTEXT;
 
 #ifdef __cplusplus
