@@ -229,7 +229,7 @@ BOOL IsProtectedProcess(
 				bResult = TRUE;
 			} else {
 				RtlSecureZeroMemory(tBuff, sizeof(tBuff));
-				Status = QueryProcessNameByProcessHandle(hProcess, tBuff, MAX_PATH);
+				Status = QueryProcessNameByProcessHandle(hProcess, tBuff, MAX_PATH * 2);
 				if (NT_SUCCESS(Status)) {
 					ExtractFileNameW_S(tBuff, tBuff, MAX_PATH);
 					if ( IsSandboxieProcessW(tBuff) ) {				

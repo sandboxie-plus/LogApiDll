@@ -213,7 +213,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <EntryPointSymbol>DllMain</EntryPointSymbol>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>libcntpr.lib;ntdllp.lib;wbemuuid.lib;..\libMinHook\build\VC14\lib\Debug\libMinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -245,7 +245,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <EntryPointSymbol>DllMain</EntryPointSymbol>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>libcntpr.lib;ntdllp.lib;wbemuuid.lib;..\libMinHook\build\VC14\lib\Debug\libMinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -341,7 +341,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <EntryPointSymbol>DllMain</EntryPointSymbol>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
       <AdditionalDependencies>libcntpr.lib;ntdllp.lib;wbemuuid.lib;..\libMinHook\build\VC14\lib\Release\libMinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>

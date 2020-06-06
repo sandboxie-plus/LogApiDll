@@ -296,7 +296,7 @@ Return Value:
 		if (NT_SUCCESS(Status)) {
 			DynamicString = (PUNICODE_STRING)ProcessImageBuf;
 			if ( (DynamicString->Buffer != NULL)  && (DynamicString->Length > 0) )  {
-				_strncpyW(Buffer, BufferSize, DynamicString->Buffer, BufferSize);		
+				_strncpyW(Buffer, BufferSize / sizeof(wchar_t), DynamicString->Buffer, BufferSize / sizeof(wchar_t));
 			} else {
 				//returned string empty
 				Status = STATUS_UNSUCCESSFUL;
@@ -360,7 +360,7 @@ Return Value:
 		if ( NT_SUCCESS(Status) ) {
 			DynamicString = (PUNICODE_STRING)ProcessImageBuf;
 			if (( DynamicString->Buffer != NULL ) && (DynamicString->Length > 0) ) {
-				_strncpyW(Buffer, BufferSize, DynamicString->Buffer, BufferSize);
+				_strncpyW(Buffer, BufferSize / sizeof(wchar_t), DynamicString->Buffer, BufferSize / sizeof(wchar_t));
 			} else {
 				Status = STATUS_UNSUCCESSFUL;
 			}
@@ -656,7 +656,7 @@ BOOL QueryKeyName(
 		Status = NtQueryObject(hKey, ObjectNameInformation, pObjName, ReturnLength, NULL);
 		if (NT_SUCCESS(Status)) {
 
-			if ( (pObjName->Name.Buffer != NULL) && (pObjName->Name.Length > 0) ) {
+			if ( (pObjName->Name.Buffer != NULL) && (pObjName->Name.Length > 0) ) {			
 
 				bResult = TRUE;
 
