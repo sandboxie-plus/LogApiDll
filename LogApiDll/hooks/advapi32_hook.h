@@ -326,6 +326,34 @@ typedef DWORD (WINAPI *PSetSecurityInfo)(
     PACL pSacl
     );
 
+typedef BOOL(WINAPI *PCreateProcessAsUserA)(
+	HANDLE hToken,
+	LPCSTR lpApplicationName,
+	LPSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCSTR lpCurrentDirectory,
+	LPSTARTUPINFOA lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+	);
+
+typedef BOOL(WINAPI *PCreateProcessAsUserW)(
+	HANDLE hToken,
+	LPCWSTR lpApplicationName,
+	LPWSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCWSTR lpCurrentDirectory,
+	LPSTARTUPINFOW lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+	);
+
 typedef LSTATUS (APIENTRY *PRegCreateKeyExA) (
 	HKEY hKey,
 	LPCSTR lpSubKey,
@@ -533,6 +561,8 @@ extern PSetFileSecurityW pSetFileSecurityW;
 extern PSetNamedSecurityInfoA pSetNamedSecurityInfoA;
 extern PSetNamedSecurityInfoW pSetNamedSecurityInfoW;
 extern PSetSecurityInfo pSetSecurityInfo;
+extern PCreateProcessAsUserA pCreateProcessAsUserA;
+extern PCreateProcessAsUserW pCreateProcessAsUserW;
 
 //verbose mode items
 extern PRegCreateKeyExA pRegCreateKeyExA;
@@ -765,6 +795,34 @@ DWORD WINAPI SetSecurityInfoHook(
     PACL pDacl,
     PACL pSacl
     );
+
+BOOL WINAPI CreateProcessAsUserHookA(
+	HANDLE hToken,
+	LPCSTR lpApplicationName,
+	LPSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCSTR lpCurrentDirectory,
+	LPSTARTUPINFOA lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+	);
+
+BOOL WINAPI CreateProcessAsUserHookW(
+	HANDLE hToken,
+	LPCWSTR lpApplicationName,
+	LPWSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCWSTR lpCurrentDirectory,
+	LPSTARTUPINFOW lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+	);
 
 LSTATUS APIENTRY RegCreateKeyExHookA(
 	HKEY hKey,

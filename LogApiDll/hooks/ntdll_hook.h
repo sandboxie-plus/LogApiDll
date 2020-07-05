@@ -104,6 +104,13 @@ typedef NTSTATUS (NTAPI *PNtOpenProcessToken)(
 	PHANDLE TokenHandle
 	);
 
+typedef NTSTATUS (NTAPI *PNtOpenProcessTokenEx)(
+	HANDLE ProcessHandle, 
+	ACCESS_MASK DesiredAccess, 
+	ULONG HandleAttributes,
+	PHANDLE TokenHandle
+	);
+
 typedef NTSTATUS (NTAPI *PNtDeviceIoControlFile)(
 	HANDLE FileHandle, 
 	HANDLE Event, 
@@ -150,6 +157,7 @@ extern PNtQueryVirtualMemory pNtQueryVirtualMemory;
 extern PNtSetInformationProcess pNtSetInformationProcess;
 extern PNtAdjustPrivilegesToken pNtAdjustPrivilegesToken;
 extern PNtOpenProcessToken pNtOpenProcessToken;
+extern PNtOpenProcessTokenEx pNtOpenProcessTokenEx;
 extern PNtDeviceIoControlFile pNtDeviceIoControlFile;
 extern PNtSetEaFile pNtSetEaFile;
 extern PNtCreateFile pNtCreateFile;
@@ -275,6 +283,13 @@ NTSTATUS NTAPI NtAdjustPrivilegesTokenHook(
 NTSTATUS NTAPI NtOpenProcessTokenHook(
 	HANDLE ProcessHandle, 
 	ACCESS_MASK DesiredAccess, 
+	PHANDLE TokenHandle
+	);
+
+NTSTATUS NTAPI NtOpenProcessTokenExHook(
+	HANDLE ProcessHandle, 
+	ACCESS_MASK DesiredAccess, 
+	ULONG HandleAttributes,
 	PHANDLE TokenHandle
 	);
 

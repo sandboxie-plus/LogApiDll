@@ -70,6 +70,7 @@ PNtQueryVirtualMemory pNtQueryVirtualMemory = NULL;
 PNtSetInformationProcess pNtSetInformationProcess = NULL;
 PNtAdjustPrivilegesToken pNtAdjustPrivilegesToken = NULL;
 PNtOpenProcessToken pNtOpenProcessToken = NULL;
+PNtOpenProcessTokenEx pNtOpenProcessTokenEx = NULL;
 PNtDeviceIoControlFile pNtDeviceIoControlFile = NULL;
 PNtSetEaFile pNtSetEaFile = NULL;
 PNtCreateFile pNtCreateFile = NULL;
@@ -794,7 +795,7 @@ VOID LogSystemInfoClass(
 	case SystemLogicalProcessorInformation:
 		_strcatW(Buffer, L"SystemLogicalProcessorInformation");
 		break;
-	case SystemWow64SharedInformationObsolete:
+	case SystemWow64SharedInformation:
 		_strcatW(Buffer, L"SystemWow64SharedInformation");
 		break;
 	case SystemRegisterFirmwareTableInformationHandler:
@@ -1330,7 +1331,7 @@ VOID LogProcessInformationClass(
 	case ProcessIoPriority:
 		_strcatW(Buffer, L"ProcessIoPriority");
 		break;
-	case ProcessResourceManagement: // ProcessTlsInformation
+	case ProcessTlsInformation:
 		_strcatW(Buffer, L"ProcessTlsInformation");
 		break;
 	case ProcessCookie:
@@ -1700,6 +1701,69 @@ NTSTATUS NTAPI NtOpenProcessTokenHook(
 
 	if ( Tls ) Tls->ourcall = FALSE;
 	return pNtOpenProcessToken(ProcessHandle, DesiredAccess, TokenHandle);
+}
+
+NTSTATUS NTAPI NtOpenProcessTokenExHook(
+	HANDLE ProcessHandle, 
+	ACCESS_MASK DesiredAccess, 
+	ULONG HandleAttributes,
+	PHANDLE TokenHandle
+	)
+{
+	PTLS Tls;
+	DWORD dwProcessId;
+	WCHAR tBuff[LOGBUFFERSIZELONG];
+
+	Tls = GetTls();
+	if ( Tls ) {
+		Tls->showcomparision = FALSE;
+		if ( Tls->ourcall ) 
+			return pNtOpenProcessToken(ProcessHandle, DesiredAccess, TokenHandle);
+		Tls->ourcall = TRUE;
+	}
+
+	RtlSecureZeroMemory(tBuff, sizeof(tBuff));
+
+	//put prolog
+	_strcpyW(tBuff, L"OpenProcessTokenEx(");
+
+	//put filename
+	dwProcessId = 0;
+	if (!QueryProcessName(ProcessHandle, _strendW(tBuff), MAX_PATH * 2, &dwProcessId)) {
+		if (!LogSystemProcess(dwProcessId, _strendW(tBuff))) {
+			ultostrW((ULONG_PTR)dwProcessId, _strendW(tBuff));
+		}
+	}
+
+	//put DesiredAccess
+	if ( DesiredAccess == TOKEN_ALL_ACCESS ) { 
+		_strcatW(tBuff, L", TOKEN_ALL_ACCESS"); 
+	} else {
+		if ( DesiredAccess & TOKEN_ADJUST_DEFAULT ) _strcatW(tBuff, L", TOKEN_ADJUST_DEFAULT"); 
+		if ( DesiredAccess & TOKEN_ADJUST_GROUPS ) _strcatW(tBuff, L", TOKEN_ADJUST_GROUPS"); 
+		if ( DesiredAccess & TOKEN_ADJUST_PRIVILEGES ) _strcatW(tBuff, L", TOKEN_ADJUST_PRIVILEGES"); 
+		if ( DesiredAccess & TOKEN_ADJUST_SESSIONID ) _strcatW(tBuff, L", TOKEN_ADJUST_SESSIONID"); 
+		if ( DesiredAccess & TOKEN_ASSIGN_PRIMARY ) _strcatW(tBuff, L", TOKEN_ASSIGN_PRIMARY"); 
+		if ( DesiredAccess & TOKEN_DUPLICATE ) _strcatW(tBuff, L", TOKEN_DUPLICATE"); 
+		if ( DesiredAccess & TOKEN_EXECUTE ) _strcatW(tBuff, L", TOKEN_EXECUTE"); 
+		if ( DesiredAccess & TOKEN_IMPERSONATE ) _strcatW(tBuff, L", TOKEN_IMPERSONATE"); 
+		if ( DesiredAccess & TOKEN_QUERY ) _strcatW(tBuff, L", TOKEN_QUERY"); 
+		if ( DesiredAccess & TOKEN_QUERY_SOURCE ) _strcatW(tBuff, L", TOKEN_QUERY_SOURCE"); 
+		if ( DesiredAccess & TOKEN_READ ) _strcatW(tBuff, L", TOKEN_READ"); 
+		if ( DesiredAccess & TOKEN_WRITE ) _strcatW(tBuff, L", TOKEN_WRITE");
+		if ( DesiredAccess & ACCESS_SYSTEM_SECURITY) _strcatW(tBuff, L", ACCESS_SYSTEM_SECURITY");
+		if ( DesiredAccess & DELETE) _strcatW(tBuff, L", DELETE");
+		if ( DesiredAccess & READ_CONTROL) _strcatW(tBuff, L", READ_CONTROL");
+		if ( DesiredAccess & WRITE_DAC) _strcatW(tBuff, L", WRITE_DAC");
+		if ( DesiredAccess & WRITE_OWNER) _strcatW(tBuff, L", WRITE_OWNER");
+	}
+
+	//put epilog and log
+	_strcatW(tBuff, CloseBracketW);
+	PushToLogW(tBuff, LOGBUFFERSIZELONG, LOG_NORMAL);
+
+	if ( Tls ) Tls->ourcall = FALSE;
+	return pNtOpenProcessTokenEx(ProcessHandle, DesiredAccess, HandleAttributes, TokenHandle);
 }
 
 NTSTATUS NTAPI NtDeviceIoControlFileHook(

@@ -44,6 +44,8 @@ PSetFileSecurityW pSetFileSecurityW = NULL;
 PSetNamedSecurityInfoA pSetNamedSecurityInfoA = NULL;
 PSetNamedSecurityInfoW pSetNamedSecurityInfoW = NULL;
 PSetSecurityInfo pSetSecurityInfo = NULL;
+PCreateProcessAsUserA pCreateProcessAsUserA = NULL;
+PCreateProcessAsUserW pCreateProcessAsUserW = NULL;
 
 /* verbose mode items */
 PRegCreateKeyExA pRegCreateKeyExA = NULL;
@@ -2939,4 +2941,190 @@ DWORD WINAPI SetSecurityInfoHook(
 	 
 	if ( Tls ) Tls->ourcall = FALSE;
 	return pSetSecurityInfo(handle, ObjectType, SecurityInfo, psidOwner, psidGroup, pDacl, pSacl);
+}
+
+BOOL WINAPI CreateProcessAsUserHookA(
+	HANDLE hToken,
+	LPCSTR lpApplicationName,
+	LPSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCSTR lpCurrentDirectory,
+	LPSTARTUPINFOA lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+)
+{
+	PTLS Tls;
+	CHAR tBuff[LOGBUFFERSIZELONG];
+
+	Tls = GetTls();
+	if (Tls) {
+		Tls->showcomparision = FALSE;
+		if (Tls->ourcall) {
+			return pCreateProcessAsUserA(
+				hToken,
+				lpApplicationName,
+				lpCommandLine,
+				lpProcessAttributes,
+				lpThreadAttributes,
+				bInheritHandles,
+				dwCreationFlags,
+				lpEnvironment,
+				lpCurrentDirectory,
+				lpStartupInfo,
+				lpProcessInformation
+			);
+		}
+		Tls->ourcall = TRUE;
+	}
+
+	RtlSecureZeroMemory(tBuff, sizeof(tBuff));
+
+	//put prolog
+	_strcpyA(tBuff, "CreateProcess(");
+
+	__try {
+		//put lpApplicationName
+		if (ARGUMENT_PRESENT(lpApplicationName)) {
+			_strncpyA(_strendA(tBuff), MAX_PATH * 2, lpApplicationName, MAX_PATH * 2);
+		}
+		else {
+			_strcatA(tBuff, NullStrA);
+		}
+		_strcatA(tBuff, CommaExA);
+		//put lpCommandLine
+		if (ARGUMENT_PRESENT(lpCommandLine)) {
+			_strncpyA(_strendA(tBuff), MAX_PATH * 2, lpCommandLine, MAX_PATH * 2);
+		}
+		else {
+			_strcatA(tBuff, NullStrA);
+		}
+		_strcatA(tBuff, CommaExA);
+		//put lpCurrentDirectory
+		if (ARGUMENT_PRESENT(lpCurrentDirectory)) {
+			_strncpyA(_strendA(tBuff), MAX_PATH * 2, lpCurrentDirectory, MAX_PATH * 2);
+		}
+		else {
+			_strcatA(tBuff, NullStrA);
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER) {
+		_strcatA(tBuff, ADVAPI32_EXCEPTION_A);
+		utohexA((ULONG_PTR)GetExceptionCode(), _strendA(tBuff));
+	}
+
+	//put epilog and log
+	_strcatA(tBuff, CloseBracketA);
+	PushToLogA(tBuff, LOGBUFFERSIZELONG, LOG_NORMAL);
+
+	if (Tls) Tls->ourcall = FALSE;
+	return pCreateProcessAsUserA(
+		hToken,
+		lpApplicationName,
+		lpCommandLine,
+		lpProcessAttributes,
+		lpThreadAttributes,
+		bInheritHandles,
+		dwCreationFlags,
+		lpEnvironment,
+		lpCurrentDirectory,
+		lpStartupInfo,
+		lpProcessInformation
+	);
+}
+
+BOOL WINAPI CreateProcessAsUserHookW(
+	HANDLE hToken,
+	LPCWSTR lpApplicationName,
+	LPWSTR lpCommandLine,
+	LPSECURITY_ATTRIBUTES lpProcessAttributes,
+	LPSECURITY_ATTRIBUTES lpThreadAttributes,
+	BOOL bInheritHandles,
+	DWORD dwCreationFlags,
+	LPVOID lpEnvironment,
+	LPCWSTR lpCurrentDirectory,
+	LPSTARTUPINFOW lpStartupInfo,
+	LPPROCESS_INFORMATION lpProcessInformation
+)
+{
+	PTLS Tls;
+	WCHAR tBuff[LOGBUFFERSIZELONG];
+
+	Tls = GetTls();
+	if (Tls) {
+		Tls->showcomparision = FALSE;
+		if (Tls->ourcall) {
+			return pCreateProcessAsUserW(
+				hToken,
+				lpApplicationName,
+				lpCommandLine,
+				lpProcessAttributes,
+				lpThreadAttributes,
+				bInheritHandles,
+				dwCreationFlags,
+				lpEnvironment,
+				lpCurrentDirectory,
+				lpStartupInfo,
+				lpProcessInformation
+			);
+		}
+		Tls->ourcall = TRUE;
+	}
+
+	RtlSecureZeroMemory(tBuff, sizeof(tBuff));
+
+	//put prolog
+	_strcpyW(tBuff, L"CreateProcessAsUser(");
+
+	__try {
+		//put lpApplicationName
+		if (ARGUMENT_PRESENT(lpApplicationName)) {
+			_strncpyW(_strendW(tBuff), MAX_PATH * 2, lpApplicationName, MAX_PATH * 2);
+		}
+		else {
+			_strcatW(tBuff, NullStrW);
+		}
+		_strcatW(tBuff, CommaExW);
+		//put lpCommandLine
+		if (ARGUMENT_PRESENT(lpCommandLine)) {
+			_strncpyW(_strendW(tBuff), MAX_PATH * 2, lpCommandLine, MAX_PATH * 2);
+		}
+		else {
+			_strcatW(tBuff, NullStrW);
+		}
+		_strcatW(tBuff, CommaExW);
+		//put lpCurrentDirectory
+		if (ARGUMENT_PRESENT(lpCurrentDirectory)) {
+			_strncpyW(_strendW(tBuff), MAX_PATH * 2, lpCurrentDirectory, MAX_PATH * 2);
+		}
+		else {
+			_strcatW(tBuff, NullStrW);
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER) {
+		_strcatW(tBuff, ADVAPI32_EXCEPTION);
+		utohexW((ULONG_PTR)GetExceptionCode(), _strendW(tBuff));
+	}
+
+	//put epilog and log
+	_strcatW(tBuff, CloseBracketW);
+	PushToLogW(tBuff, LOGBUFFERSIZELONG, LOG_NORMAL);
+
+	if (Tls) Tls->ourcall = FALSE;
+	return pCreateProcessAsUserW(
+		hToken,
+		lpApplicationName,
+		lpCommandLine,
+		lpProcessAttributes,
+		lpThreadAttributes,
+		bInheritHandles,
+		dwCreationFlags,
+		lpEnvironment,
+		lpCurrentDirectory,
+		lpStartupInfo,
+		lpProcessInformation
+	);
 }

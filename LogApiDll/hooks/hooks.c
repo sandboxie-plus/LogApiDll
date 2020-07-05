@@ -55,8 +55,7 @@ PVOID HookCode(
 		PVOID pOriginal = NULL;
 		if (MH_CreateHook(pfn, DetourHandler, &pOriginal) != MH_OK)
 			return pfn;
-		//if (shctx.initDone)
-		//	MH_EnableHook(pfn);
+		//if (MH_EnableHook(pfn) == MH_OK)
 		return pOriginal;
 #else
 		return shctx.SboxHook(RoutineName, pfn, DetourHandler);
@@ -288,6 +287,7 @@ VOID HookNTDLL(
 	pNtSetInformationProcess = (PNtSetInformationProcess)HookCode(shctx.hmNTDLL, "NtSetInformationProcess", NtSetInformationProcessHook, NULL);
 	pNtAdjustPrivilegesToken = (PNtAdjustPrivilegesToken)HookCode(shctx.hmNTDLL, "NtAdjustPrivilegesToken", NtAdjustPrivilegesTokenHook, NULL);
 	pNtOpenProcessToken = (PNtOpenProcessToken)HookCode(shctx.hmNTDLL, "NtOpenProcessToken", NtOpenProcessTokenHook, NULL);
+	pNtOpenProcessTokenEx = (PNtOpenProcessTokenEx)HookCode(shctx.hmNTDLL, "NtOpenProcessTokenEx", NtOpenProcessTokenExHook, NULL);
 	pNtDeviceIoControlFile = (PNtDeviceIoControlFile)HookCode(shctx.hmNTDLL, "NtDeviceIoControlFile", NtDeviceIoControlFileHook, NULL);
 	pNtSetEaFile = (PNtSetEaFile)HookCode(shctx.hmNTDLL, "NtSetEaFile", NtSetEaFileHook, NULL);
 	pNtCreateFile = (PNtCreateFile)HookCode(shctx.hmNTDLL, "NtCreateFile", NtCreateFileHook, NULL);
@@ -427,6 +427,8 @@ VOID HookAdvapi32(
 	pSetNamedSecurityInfoA = (PSetNamedSecurityInfoA)HookCode(shctx.hmAdvapi32, "SetNamedSecurityInfoA", SetNamedSecurityInfoHookA, NULL);
 	pSetNamedSecurityInfoW = (PSetNamedSecurityInfoW)HookCode(shctx.hmAdvapi32, "SetNamedSecurityInfoW", SetNamedSecurityInfoHookW, NULL);
 	pSetSecurityInfo = (PSetSecurityInfo)HookCode(shctx.hmAdvapi32, "SetSecurityInfo", SetSecurityInfoHook, NULL);
+	pCreateProcessAsUserA = (PCreateProcessAsUserA)HookCode(shctx.hmAdvapi32, "CreateProcessAsUserA", CreateProcessAsUserHookW, NULL);
+	pCreateProcessAsUserW = (PCreateProcessAsUserW)HookCode(shctx.hmAdvapi32, "CreateProcessAsUserW", CreateProcessAsUserHookW, NULL);
 #ifdef VERBOSE_BUILD
 	pRegCreateKeyExA = (PRegCreateKeyExA)HookCode(shctx.hmAdvapi32, "RegCreateKeyExA", RegCreateKeyExHookA, NULL);
 	pRegCreateKeyExW = (PRegCreateKeyExW)HookCode(shctx.hmAdvapi32, "RegCreateKeyExW", RegCreateKeyExHookW, NULL);
